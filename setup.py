@@ -12,19 +12,19 @@ else:
         long_description = f.read()
 
 version = {}
-with open(os.path.join(_here, 'ModePlotly', 'version.py')) as f:
+with open(os.path.join(_here, 'ModePlotlyWidgets', 'version.py')) as f:
     exec(f.read(), version)
 
 setup(
-    name='ModePlotly',
+    name='ModePlotlyWidgets',
     version=version['__version__'],
     description=('Convenience Classes for working with Plotly in ModeAnalytics'),
     long_description=long_description,
     author='',
     author_email='',
-    url='https://github.com/neurocean/ModePlotly',
+    url='https://github.com/neurocean/mode-plotly-widgets',
     license='MPL-2.0',
-    packages=['ModePlotly'],
+    packages=['ModePlotlyWidgets'],
 #   no dependencies in this example
 #   install_requires=[
 #       'dependency==1.2.3',
