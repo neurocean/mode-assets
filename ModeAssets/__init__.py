@@ -7,8 +7,9 @@ init_notebook_mode(connected=False)
 
 import json
 
-class ag_grid_table(object):
+class AgGridTable(object):
     def __init__(self, df, div_id=""):
+        import json
         self.div_id = div_id
         self.header = """
         <script src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.noStyle.js"></script>
