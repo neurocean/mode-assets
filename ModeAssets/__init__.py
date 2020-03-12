@@ -5,10 +5,10 @@ from plotly.offline import download_plotlyjs, init_notebook_mode, plot, iplot
 from plotly import tools #subplot
 init_notebook_mode(connected=False)
 
+import json
 
 class ag_grid_table(object):
     def __init__(self, df, div_id=""):
-        import json
         self.div_id = div_id
         self.header = """
         <script src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.noStyle.js"></script>
