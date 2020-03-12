@@ -5,6 +5,58 @@ from plotly.offline import download_plotlyjs, init_notebook_mode, plot, iplot
 from plotly import tools #subplot
 init_notebook_mode(connected=False)
 
+
+class ag_grid_table(object):
+    def __init__(self, df, div_id=""):
+        self.div_id = div_id
+        self.header = """
+        <script src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.noStyle.js"></script>
+        <link rel="stylesheet" href="https://unpkg.com/ag-grid-community/dist/styles/ag-grid.css">
+        <link rel="stylesheet" href="https://unpkg.com/ag-grid-community/dist/styles/ag-theme-balham.css">
+      """
+
+        self.column_defs = [{"headerName": col, "field": col, "sortable": True, "filter": True} for col in df.columns]
+
+        self.body = '''<div id="{div_id}" style="height: 600px;width:100%;" class="ag-theme-balham"></div>
+  <script type="text/javascript" charset="utf-8">
+
+    function onBtnExportDataAsCsv(div_name) {{
+        window['gridOptions_'+div_name].api.exportDataAsCsv();
+    }}
+
+    // specify the columns
+    var columnDefs = {column_defs};
+    // specify the data
+    var rowData = {data};
+    // let the grid know which columns and what data to use
+    var gridOptions_{div_id} = {{
+      columnDefs: columnDefs,
+      rowData: rowData,
+      pagination: true
+    }};
+  // lookup the container we want the Grid to use
+  var eGridDiv = document.querySelector('#{div_id}');
+  // create the grid passing in the div to use together with the columns & data we want to use
+  new agGrid.Grid(eGridDiv, gridOptions_{div_id});
+  </script>
+      '''.format(
+            div_id=self.div_id,
+            column_defs=json.dumps(self.column_defs),
+            data=df.to_json(orient='records'),
+        )
+
+        self.csv_export_button = '''<div id="csvExportbutton_{div_id}" style="margin: 10px 0">
+      <button onclick="onBtnExportDataAsCsv('{div_id}')">Export CSV</button>
+    </div>
+    '''.format(div_id=div_id)
+
+        self.html = "<html>" + self.header + self.body + self.csv_export_button + "</html>"
+
+    def show(self):
+        from IPython.core.display import display, HTML
+        display(HTML(self.header + self.body + self.csv_export_button))
+
+
 class PlotlyBigNumberGrid():
 
   """
