@@ -84,7 +84,7 @@ class AgGridTable(object):
         for col, dtype in df.dtypes.iteritems():
             colDef = {"headerName": col, "field": col, "sortable": True, "filter": True, "editable": True,
                       "filterParams": {"applyButton": True, "resetButton": True}}
-            if 'int' in str(dtype):
+            if any(s in str(dtype) for s in ('int', 'float')):
                 colDef["filter"] = 'agNumberColumnFilter'
             elif 'date' in str(dtype):
                 colDef["filter"] = 'agDateColumnFilter'
